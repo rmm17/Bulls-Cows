@@ -22,7 +22,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("another");
+    HiddenWord = TEXT("cakes");
     Lives = HiddenWord.Len();
     bGameOver = false;
 
@@ -31,8 +31,6 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Welcome to the Bull Cows game!"));
     PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len());
     PrintLine(TEXT("Type your guess and then press ENTER.\nYou have %i lives.\n"), Lives);
-
-    const TCHAR HW[] = TEXT("cakes");
 }
 
 void UBullCowCartridge::EndGame()
@@ -87,7 +85,7 @@ bool UBullCowCartridge::CheckIsogram(FString Guess) const
     int32 Length = Guess.Len() - 1; // Not required to make the check on the last letter (they are done on previous iterations), hence Len - 1
 
     for (int Index = 0; Index < Length; Index++) {
-        for (int Comparison = Index + 1; Comparison < Length; Comparison++) {
+        for (int Comparison = Index + 1; Comparison < Guess.Len(); Comparison++) {
             if (Guess[Comparison] == Guess[Index]) {
                 bRet = false;
                 break;
