@@ -1,0 +1,18 @@
+{
+	"source": "UE",
+	"applications": [
+		{
+			"app_key": "application.generated.ue.bullcowgame-17735300.ue4editor.exe",
+			"launch_type": "url",
+			"url": "steam://launch/",
+			"action_manifest_path": "D:/Unreal Projects/BullCowGame-starter-kit/Bulls-Cows/Config/SteamVRBindings/steamvr_manifest.json",
+			"strings":
+			{
+				"en_us":
+				{
+					"name": "BullCowGame-17735300 [UE Editor]"
+				}
+			}
+		}
+	]
+}
