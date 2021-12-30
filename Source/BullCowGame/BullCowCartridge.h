@@ -17,12 +17,12 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	void ProcessWordList();
 	void SetupGame();
 	void EndGame();
-	void ProcessGuess(FString Guess);
+	void ProcessGuess(const FString& Word);
 	void CheckLives();
-	bool IsIsogram(FString Guess) const;
-	int32 NumberOfBulls(FString Guess) const;
-	int32 NumberOfCows(FString Guess) const;
-	TArray<FString> GetValidWords(TArray<FString> Words) const;
+	bool IsIsogram(const FString& Word) const;
+	int32 NumberOfBulls(const FString& Guess) const;
+	int32 NumberOfCows(const FString& Guess) const;
+	TArray<FString> GetValidWords(const TArray<FString>& Words) const;
 
 	// Your declarations go below!
 	private:
