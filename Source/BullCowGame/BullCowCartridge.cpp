@@ -5,6 +5,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
+    ProcessWordList();
     SetupGame();
 }
 
@@ -20,9 +21,28 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     }
 }
 
+void UBullCowCartridge::ProcessWordList() 
+{
+    TArray<FString> WordsFile;
+
+    const FString WordsFilePath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordList.txt");
+    FFileHelper::LoadFileToStringArray(WordsFile, *WordsFilePath);
+
+    WordList = GetValidWords(WordsFile);
+
+    //PrintLine(TEXT("The number of possible words is %i\n"), WordsFile.Num());
+    //PrintLine(TEXT("The number of valid words is %i\n"), WordList.Num());
+}
+
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("cakes");
+    int32 HiddenWordListLength = WordList.Num();
+    if (HiddenWordListLength <= 0) {
+        PrintLine(TEXT("Error: Unable to load a hidden word.\n"));
+        return;
+    }
+
+    HiddenWord = WordList[rand() % HiddenWordListLength];
     Lives = HiddenWord.Len();
     bGameOver = false;
 
@@ -60,7 +80,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 
     PrintLine(TEXT("There are %i bulls and %i cows.\n"), NumberOfBulls(Guess), NumberOfCows(Guess));
 
-    if (!CheckIsogram(Guess)) {
+    if (!IsIsogram(Guess)) {
         PrintLine(TEXT("The Guess Word must be an Isogram.\n"));
         CheckLives();
         return;
@@ -79,7 +99,7 @@ void UBullCowCartridge::CheckLives()
     }
 }
 
-bool UBullCowCartridge::CheckIsogram(FString Guess) const
+bool UBullCowCartridge::IsIsogram(FString Guess) const
 {
     bool bRet = true;
     int32 Length = Guess.Len() - 1; // Not required to make the check on the last letter (they are done on previous iterations), hence Len - 1
@@ -129,5 +149,17 @@ int32 UBullCowCartridge::NumberOfCows(FString Guess) const {
     }
 
     return CowsCount;
+}
 
+TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> Words) const
+{
+    TArray<FString> ValidWords;
+
+    for (FString Word : Words) {
+        if (Word.Len() >= 4 && Word.Len() <= 8 && IsIsogram(Word)) {
+            ValidWords.Emplace(Word);
+        }
+    }
+
+    return ValidWords;
 }
