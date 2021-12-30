@@ -84,11 +84,11 @@ void UBullCowCartridge::CheckLives()
 bool UBullCowCartridge::CheckIsogram(FString Guess) const
 {
     bool bRet = true;
-    int32 Length = Guess.Len();
+    int32 Length = Guess.Len() - 1; // Not required to make the check on the last letter (they are done on previous iterations), hence Len - 1
 
-    for (int i = 0; i < Length; i++) {
-        for (int j = i + 1; j < Length; j++) {
-            if (Guess[j] == Guess[i]) {
+    for (int Index = 0; Index < Length; Index++) {
+        for (int Comparison = Index + 1; Comparison < Length; Comparison++) {
+            if (Guess[Comparison] == Guess[Index]) {
                 bRet = false;
                 break;
             }
@@ -107,8 +107,8 @@ int32 UBullCowCartridge::NumberOfBulls(FString Guess) const
     int32 BullsCount = 0;
     int32 Length = Guess.Len();
 
-    for (int i = 0; i < Length; i++) {
-        if (Guess[i] == HiddenWord[i]) {
+    for (int Index = 0; Index < Length; Index++) {
+        if (Guess[Index] == HiddenWord[Index]) {
             BullsCount++;
         }
     }
@@ -121,15 +121,14 @@ int32 UBullCowCartridge::NumberOfCows(FString Guess) const {
     int32 GuessLength = Guess.Len();
     int32 HiddenWordLength = HiddenWord.Len();
 
-    for (int i = 0; i < GuessLength; i++) {
-        for (int j = 0; j < HiddenWordLength; j++) {
-            if (j != i && Guess[i] == HiddenWord[j]) {
+    // Should need to not repeat Cows count. Revise code.
+    for (int Index = 0; Index < GuessLength; Index++) {
+        for (int Comparison = 0; Comparison < HiddenWordLength; Comparison++) {
+            if (Comparison != Index && Guess[Index] == HiddenWord[Comparison]) {
                 CowsCount++;
             }
         }
     }
-
-    // Needs to not repeat Cows count. Revise code.
 
     return CowsCount;
 
