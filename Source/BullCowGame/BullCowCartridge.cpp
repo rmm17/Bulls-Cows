@@ -42,7 +42,8 @@ void UBullCowCartridge::SetupGame()
     bGameOver = false;
 
     PrintLine(TEXT("Welcome to the Bull Cows game!"));
-    PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len());
+    PrintLine(TEXT("Guess the %i letter word!\n"), HiddenWord.Len());
+    PrintLine(TEXT("Press TAB to input on the terminal."), HiddenWord.Len());
     PrintLine(TEXT("Type your guess and then press ENTER.\nYou have %i lives.\n"), Lives);
     //PrintLine(TEXT("The HiddenWord is: %s"), *HiddenWord); //Debug Line
 }
